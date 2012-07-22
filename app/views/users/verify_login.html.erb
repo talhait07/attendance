@@ -1,0 +1,4 @@
+<% if session[:user] %>
+    <%= link_to "Logout", logout_path %> <br />      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<%= "<b>Welcome  #{session[:user].email}!</b>".html_safe %> &nbsp;
+<% end %>

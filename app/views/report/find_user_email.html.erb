@@ -1,0 +1,15 @@
+<%= form_for '@user', :url => show_user_history_path, :html => {:method => :get } do |f|%>
+    <tr>
+      <td>Email</td>
+      <td><%= text_field :find_user_email, :email %></td>
+
+    </tr>
+
+    <tr> <div>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+      <td><%= f.submit :value => 'Search' %></td>
+    </div>
+    </tr>
+    <%= link_to "search_by_date", search_by_date_path %>
+<% end %>
+

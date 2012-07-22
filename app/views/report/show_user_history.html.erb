@@ -1,0 +1,42 @@
+<center>
+<table border="1" cellpadding="4" cellspacing="4">
+  <tr>
+    <th>Email</th><th>Logged in</th><th>Logged Out</th>
+  </tr>
+  <%late_count = 0%>
+  <% @attendance_logs.each do |attendance_log| %>
+      <tr>
+        <% in_date = attendance_log.logged_in_at%>
+        <% time_in = attendance_log.logged_in_at%>
+        <% time_count = "#{in_date.strftime("%F")} 9:29:59  +0600" %>
+        <% check_time = DateTime.parse(time_count) %>
+        <% if time_in > check_time %>
+            <% late_count += 1 %>
+        <% end %>
+        <td><%= attendance_log.user.email %></td>
+        <td style="<%= "background-color: red" if time_in > check_time %>">
+        
+          <%= attendance_log.logged_in_at.strftime("%A %d %m %Y, %I:%M %p") %>
+
+        </td>
+        <td>
+          <%= attendance_log.logged_out_at.present? ? attendance_log.logged_out_at.strftime("%A %d %m %Y, %I:%M %p") : 'Not logged out yet' %>
+        </td>
+
+      </tr>
+
+
+  <% end %>
+
+</table>
+<table border="1" cellpadding="1" cellspacing="4">
+  <tr>
+    <th>Late Count</th>
+  <tr>
+    <td style="background-color: yellow;"><%= late_count %></td>
+  </tr>
+  </tr>
+</table>
+</center>
+<%= link_to 'Login', login_path(@user) %>
+<%= link_to 'Back', find_user_email_path(@user) %>

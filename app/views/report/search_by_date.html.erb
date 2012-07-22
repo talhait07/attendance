@@ -1,0 +1,91 @@
+<%#= params[:search]["to(1i)"].inspect %>
+<%#show_history_path%>
+<style>
+    body
+    {
+        background-color:#5d113c;
+    }     </style>
+<%= form_for '', :url => search_by_date_path, :html => {:method => :get } do |f|%>
+    <tr>
+      <td>Email</td>
+      <td><%= text_field(:search, :email, {:value => params[:search].present? ? params[:search][:email] : ''}) %></td>
+      <td><b style="color:#FFA500">Search Date From :</b></td>
+      <td><%= text_field :search, :from_date, {:id => 'from_date',:value => params[:search].present? ? params[:search][:from_date] :''}%></td>
+      <td><%#= datetime_select :search, :from,{:default => {:year => params[:search].present? ? params[:search]["from(1i)"].to_i : Time.now.year,:month => params[:search].present? ? params[:search]["from(2i)"] : Time.now.month,:day => params[:search].present? ? params[:search]["from(3i)"] : Time.now.day,:hour => params[:search].present? ? params[:search]["from(4i)"] : '09'}},{} %></td>
+
+      <td><b style="color:#FFA500">To:</b></td>
+      <td><td><%= text_field :search, :to_date, {:id => 'to_date',:value => params[:search].present? ? params[:search][:to_date] : ''}%></td></td>
+      <td>
+
+
+
+      </td>
+    </tr>
+
+    <tr> <div>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+      <td><%= f.submit :value => 'Search' %></td>
+    </div>
+    </tr>
+
+<% end %>
+
+<% if @attendance_logs.any? %>
+<center style="color: #FFA500;">
+  <% email = params[:search][:email] %>
+  <% from_date = params[:search][:from_date] %>
+  <% test = params[:search][:from_date] %>
+
+  <table border="1" cellpadding="4" cellspacing="4">
+    <tr>
+      <th>Email</th><th>Logged in</th><th>Logged Out</th>
+    </tr>
+    <% late_count = 0 %>
+    <% @attendance_logs.each do |attendance_log| %>
+
+        <tr>
+          <% in_date = attendance_log.logged_in_at %>
+          <% time_in = attendance_log.logged_in_at %>
+          <% time_count = "#{in_date.strftime("%F")} 9:29:59  +0600" %>
+          <% check_time = DateTime.parse(time_count) %>
+          <% if time_in > check_time %>
+              <% late_count += 1 %>
+          <% end %>
+
+          <td><%= attendance_log.user.email %></td>
+           <td style="<%= "background-color: 	#E41B00" if time_in > check_time %>">
+             <%= attendance_log.logged_in_at.strftime("%A %d %m %Y, %I:%M %p") %>
+           </td>
+
+           <td>
+               <%= attendance_log.logged_out_at.present? ? attendance_log.logged_out_at.strftime("%A %d %m %Y, %I:%M %p") : 'Not logged out yet' %>
+           </td>
+          
+        </tr>
+
+
+
+    <% end %>
+
+  </table>
+
+  <table border="1" cellpadding="1" cellspacing="4">
+    <th>Late Count</th>
+      <tr>
+          <td><%= late_count %></td>
+      </tr>
+  </table>
+</center>
+
+<% end %>
+
+<%= link_to 'Back', find_user_email_path(@user) %>
+
+<%= javascript_include_tag "jquery-ui-1.8.21.custom.min", "jquery.ui.datepicker" %>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#from_date").datepicker({ dateFormat: 'yy-mm-dd' }).val();
+        $("#to_date").datepicker({ dateFormat: 'yy-mm-dd' }).val();
+    })
+ </script>

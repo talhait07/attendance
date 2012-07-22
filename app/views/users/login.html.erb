@@ -1,0 +1,49 @@
+<style>
+body
+{
+background-color:#5d113c;
+}     </style>
+
+<fieldset>
+  <legend>Login</legend>
+
+
+
+
+  <%= form_for '@user', :url => verify_login_path do |f|%>
+
+      <table>
+        <tr>
+          <td>Email</td>
+
+          <td><%= text_field :login, :email %>
+
+          </td>
+        </tr>
+        <p style="color:#9bcd39;">Enter your Akhoni.com email number and password.</p>
+
+        <tr>
+          <td>Password</td>
+          <td><%= password_field :login, :password %></td>
+        </tr>
+        <tr> <div align="center">
+          <td>&nbsp;</td>
+          <td><%= f.submit :value => 'login' %></td>
+        </div>
+        </tr>
+
+        <tr>
+          <td>&nbsp;</td>
+          <td><%#= link_to "Report", show_history_path %></td>
+        </tr>
+        <% if session[:user].present? %>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= link_to "logout", logout_path %></td>
+        </tr>
+        <% end %>
+      </table>
+
+    <% end %>
+
+</fieldset>
