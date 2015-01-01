@@ -28,7 +28,7 @@ Attendance::Application.configure do
       :domain               => "gmail.com",
       :authentication       => "plain",
       :user_name            => "monsur.it07",
-      :password             => "01912091mn"
+      :password             => "xxxxxxxxx"
 
        #jhlqvypmcjalcltl
   }
